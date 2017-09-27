@@ -105,7 +105,7 @@ CliOptions parseCommand(int argc, char **argv)
             options.isApprox = isInVector(optarg, approxAlgorithmArguments);
             if (!options.isExact && !options.isApprox)
             {
-                cerr << "Illegal algorithm name" << endl;
+                cerr << "ERR: illegal algorithm name" << endl;
                 exit(1);
             }
             break;
@@ -113,7 +113,7 @@ CliOptions parseCommand(int argc, char **argv)
             options.editDistance = stoi(optarg);
             if (options.editDistance < 0)
             {
-                cerr << "edit distance should be positive" << endl;
+                cerr << "ERR: edit distance should be positive" << endl;
                 exit(1);
             }
             break;
@@ -124,7 +124,7 @@ CliOptions parseCommand(int argc, char **argv)
             options.patternFile = optarg;
             break;
         default:
-            cerr << "option not found" << endl;
+            cerr << "ERR: option not found" << endl;
             exit(1);
         }
     }
@@ -151,10 +151,10 @@ CliOptions parseCommand(int argc, char **argv)
 
     // Checking conflicts
     if ((options.isExact && options.editDistance != -1) || (options.isApprox && options.editDistance == -1))
-        cerr << "Conflicting options, -a,--algorithm and -e,--edit, check --help" << endl;
+        cerr << "ERR: conflicting options, -a,--algorithm and -e,--edit, check --help" << endl;
 
     if (options.clDevice != -1 && options.algorithm != "bf")
-        cerr << "Conflicting options, -a,--algorithm and -e,--clmode, check --help" << endl;
+        cerr << "ERR: conflicting options, -a,--algorithm and -e,--clmode, check --help" << endl;
 
     // Global arguments
     char **arguments = argv + optind;

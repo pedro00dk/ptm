@@ -23,7 +23,7 @@ int main(int argc, char **argv)
         ifstream patternsStream(options.patternFile, std::ifstream::in);
         if (!patternsStream.is_open())
         {
-            cerr << "Can not open patterns file" << endl;
+            cerr << "ERR: can not open patterns file" << endl;
             exit(1);
         }
         for (string line; getline(patternsStream, line);)

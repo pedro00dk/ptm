@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 }
 //*/
 
-//*
+/*
 // mmap (fast)
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-    int fileDescriptor = open("../test/english.txt", O_RDONLY);
+    int fileDescriptor = open("../test/dna.txt", O_RDONLY);
     struct stat fileStat;
     fstat(fileDescriptor, &fileStat);
     char *memPointer = (char *)mmap(NULL, fileStat.st_size, PROT_READ, MAP_SHARED, fileDescriptor, 0);

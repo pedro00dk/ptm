@@ -1,10 +1,11 @@
 #include <iostream>
-#include "cli/cli.h"
-#include "exact/ExactMatcher.h"
-#include "exact/BF.h"
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "cli/cli.h"
+#include "exact/ExactMatcher.h"
+#include "exact/BF.h"
+#include "exact/KMP.h"
 
 
 using namespace std;
@@ -16,7 +17,7 @@ int main(int argc, char **argv) {
     ExactMatcher *matcher = nullptr;
     if (options.algorithm == "bf") matcher = new BF();
     else if (options.algorithm == "kmp") matcher = new BF();
-    else if (options.algorithm == "bm") matcher = new BF();
+    else if (options.algorithm == "bm") matcher = new KMP();
     else if (options.algorithm == "ac") matcher = new BF();
     else if (options.algorithm == "so") matcher = new BF();
     else if (options.algorithm == "se") matcher = new BF();

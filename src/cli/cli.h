@@ -49,7 +49,6 @@ static const string help =
     "\n"
     "Examples:\n"
     "ptm -algorithm kmp -c abra abracadrabra.txt\n"
-    "ptm -clmode -h\n"
     "\n"
     "\n"
     "-a,--algorithm <arg> Specify the search algorithm\n"
@@ -152,9 +151,6 @@ CliOptions parseCommand(int argc, char **argv)
     // Checking conflicts
     if ((options.isExact && options.editDistance != -1) || (options.isApprox && options.editDistance == -1))
         cerr << "ERR: conflicting options, -a,--algorithm and -e,--edit, check --help" << endl;
-
-    if (options.clDevice != -1 && options.algorithm != "bf")
-        cerr << "ERR: conflicting options, -a,--algorithm and -e,--clmode, check --help" << endl;
 
     // Global arguments
     char **arguments = argv + optind;

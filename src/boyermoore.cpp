@@ -1,13 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
 #define N 10100
 #define ASCII 127
 vector<string> patterns;
-int badChar[ASCII], goodSuffix[N];
 int textLen, patternLen;
 
 class BoyerMoore {
@@ -17,8 +18,8 @@ private:
 
 public:
     void searchPatternsFstream(const string &textName, ifstream &text, bool count, bool print) {
-        badChar = (int**) malloc(patterns.size() * sizeof(int*));
-        goodSuffix = (int**) malloc(patterns.size() * sizeof(int*));
+        badChar = new int*[patterns.size()];
+        goodSuffix = new int*[patterns.size()];
         for (int patternNumber = 0; patternNumber < patterns.size(); patternNumber++) {
             buildBadChar(patternNumber);
             buildGoodSuffix(patternNumber);
@@ -39,8 +40,8 @@ public:
         }
         if (count) printf("%s: %d\n", textName.c_str(), occurrences);
 
-        free(badChar);
-        free(goodSuffix);
+        delete badChar;
+        delete goodSuffix;
     }
 
 private:
@@ -51,7 +52,7 @@ private:
 
         char patternChar;
 
-        badChar[patternNumber] = (int*) malloc(ASCII * sizeof(int));
+        badChar[patternNumber] = new int[ASCII];
         memset(badChar[patternNumber], -1, sizeof(int) * ASCII);
 
         for (int patternPos = 0; patternPos < patternLen; patternPos++) {
@@ -64,7 +65,7 @@ private:
         string pattern = patterns[patternNumber];
         patternLen = pattern.size();
 
-        goodSuffix[patternNumber] = (int*) malloc(patternLen * sizeof(int));
+        goodSuffix[patternNumber] = new int[patternLen];
 
         for (int i = 0; i < patternLen; i++) goodSuffix[patternNumber][i] = 1;
     }

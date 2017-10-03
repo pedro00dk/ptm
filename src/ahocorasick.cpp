@@ -8,40 +8,41 @@ using namespace std;
 #define N 1010
 #define ASCII 127
 int p;
-char text[N];
 vector<string> patterns;
 int textLen, patternLen;
 
 #define dbg(x) cerr << fixed << #x " == " << x << endl
 
-char filepath[1010];
-int goTrie[N][ASCII];
-int trieFail[N];
-int trieOccurrences[N][10];
-int trieOccurrencesCnt[N];
-
 class Aho {
-
+    vector<vector<int>> goTrie;
+    vector<int> trieFail;
+    vector<vector<int>> trieOccurrences;
 public:
     void searchPatternsFstream(const string &textName, ifstream &text, bool count, bool print) {
     	buildGoto();
     	buildFail();
+    	
         int occurrences = 0; // TODO: acumula de diferentes patterns?
         string line;
         while (getline(text, line)) {
-            bool alreadyPrint = false;
             int lineOccurences = ahoCorasick(line);
             occurrences += lineOccurences;
             if (print && lineOccurences) cout << line << "\n";
         }
         if (count) printf("%s: %d\n", textName.c_str(), occurrences);
+        
+        
     }
 private:
     void buildGoto() {
         int triePos, nextTriePos, patternPos;
         char currentChar;
         string pattern;
+        
         nextTriePos = 0;
+        goTrie.push_back(vector<int>(ASCII));
+        trieOccurrences.push_back(vector<int>());
+        
         for (int i = 0; i < patterns.size(); i++) {
             pattern = patterns[i];
             patternLen = pattern.size();
@@ -57,15 +58,19 @@ private:
     
             while (patternPos < patternLen) {
                 triePos = goTrie[triePos][currentChar] = ++nextTriePos;
+                goTrie.push_back(vector<int>(ASCII));
+                trieOccurrences.push_back(vector<int>());
                 patternPos++;
                 currentChar = pattern[patternPos];
             }
+            
     
-            trieOccurrences[triePos][trieOccurrencesCnt[triePos]++] = i;
+            trieOccurrences[triePos].push_back(i);
         }
     }
     
     void buildFail() {
+        trieFail.resize(goTrie.size());
         queue<int> q;
         int triePos, nextTriePos, border;
     
@@ -91,8 +96,8 @@ private:
                     }
                     trieFail[nextTriePos] = goTrie[border][ascii];
     
-                    for (int i = 0; i < trieOccurrencesCnt[trieFail[nextTriePos]]; i++) {
-                        trieOccurrences[nextTriePos][trieOccurrencesCnt[nextTriePos]++] = trieOccurrences[trieFail[nextTriePos]][i];
+                    for (int i = 0; i < trieOccurrences[trieFail[nextTriePos]].size(); i++) {
+                        trieOccurrences[nextTriePos].push_back(trieOccurrences[trieFail[nextTriePos]][i]);
                     }
                 }
             }
@@ -111,7 +116,7 @@ private:
             }
             triePos = goTrie[triePos][textChar];
     
-            for (int occ = 0; occ < trieOccurrencesCnt[triePos]; occ++) {
+            for (int occ = 0; occ < trieOccurrences[triePos].size(); occ++) {
                 int patternNumber = trieOccurrences[triePos][occ];
                 //printf("    found %s at pos %d\n", patterns[patternNumber], textPos - (patterns[patternNumber]).size() + 1);
                 occurrences++;

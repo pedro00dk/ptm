@@ -64,7 +64,6 @@ static const string help =
                 "\n"
                 "Special conditions:\n"
                 "\tIf -e,--edit is specified, an exact algorithm can not be choosen\n"
-                "\tIf -m,--clmode is enabled, only \"bf\" can be choosen\n"
                 "\n"
                 "\n"
                 "-e,--edit <arg>      Specify the edit distance for approx algorithms\n"

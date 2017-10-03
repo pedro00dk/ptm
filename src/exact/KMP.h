@@ -20,36 +20,7 @@ public:
         for (auto &pattern : patterns) patternsStrictBordersLength.push_back(calculateStrictBordersLen(pattern));
     }
 
-    void searchPatternsMemory(const string &textName, char *text, int textLength, bool count, bool print) override {
-        int occurrences = 0;
-        for (int p = 0; p < patterns.size(); p++) {
-            string pattern = patterns[p];
-            auto patternLength = (int) pattern.length();
-            int currentLineStart = 0;
-            bool printCurrentLine = false;
-            for (int i = 0, j = 0; i <= textLength - patternLength;) {
-                while (j < patternLength && text[i + j] == pattern[j]) j += 1;
-                if (j == patternLength) {
-                    occurrences += 1;
-                    if (print) printCurrentLine = true;
-                }
-                if (text[i + j] == '\n' || text[i + j] == '\r') {
-                    if (printCurrentLine) {
-                        printf("%.*s\n", i + j - currentLineStart, text + currentLineStart);
-                        printCurrentLine = false;
-                    }
-                    i += j;
-                    currentLineStart = i + 1;
-                } else {
-                    i += max(1, j - patternsStrictBordersLength[p][j]);
-                    j = max(0, patternsStrictBordersLength[p][j]);
-                }
-            }
-        }
-        if (count) printf("%s: %d\n", textName.c_str(), occurrences);
-    }
-
-    void searchPatternsStream(const string &textName, istream &text, bool count, bool print) override {
+    void searchPatterns(const string &textName, istream &text, bool count, bool print) override {
         int occurrences = 0;
         for (int p = 0; p < patterns.size(); p++) {
             string pattern = patterns[p];

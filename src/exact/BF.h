@@ -31,7 +31,7 @@ public:
                     if (j == patternLength) {
                         occurrences += 1;
                         if (!alreadyPrint && print) {
-                            printf("%s\n", line.c_str());
+                            cout << line << endl;
                             alreadyPrint = true;
                         }
                         if (!count) continue;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "dirtest.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -154,8 +155,12 @@ CliOptions parseCommand(int argc, char **argv) {
         cerr << "ERR: missing pattern" << endl;
         exit(1);
     }
+
     for (int i = 0; i < argumentCount; i++)
         if (i == 0 && options.patterns.empty()) options.patterns.emplace_back(arguments[i]);
         else options.files.emplace_back(arguments[i]);
+
+    options.files = findFiles(options.files);
+
     return options;
 }

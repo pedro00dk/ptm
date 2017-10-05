@@ -157,5 +157,8 @@ CliOptions parseCommand(int argc, char **argv) {
     for (int i = 0; i < argumentCount; i++)
         if (i == 0 && options.patterns.empty()) options.patterns.emplace_back(arguments[i]);
         else options.files.emplace_back(arguments[i]);
+
+    options.files.resize(unique(options.files.begin(), options.files.end()) - options.files.begin());
+
     return options;
 }

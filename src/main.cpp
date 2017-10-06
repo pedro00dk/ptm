@@ -8,6 +8,7 @@
 #include "exact/sellers.h"
 #include "exact/ahocorasick.h"
 #include "exact/boyermoore.h"
+#include "exact/SO.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ int main(int argc, char **argv) {
     else if (options.algorithm == "kmp") matcher = new KMP();
     else if (options.algorithm == "bm") matcher = new BoyerMoore();
     else if (options.algorithm == "ac") matcher = new Aho();
-    else if (options.algorithm == "so") matcher = new BF();
+    else if (options.algorithm == "so") matcher = new SO();
     else if (options.algorithm == "se") matcher = new Sellers(options.editDistance);
     else if (options.algorithm == "uk") matcher = new BF();
     else if (options.algorithm == "wu") matcher = new BF();

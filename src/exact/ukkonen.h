@@ -1,4 +1,4 @@
-//#pragma once
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -162,23 +162,3 @@ private:
         return occurrences;
     }
 };
-
-int main() {
-    int p;
-    vector<string> pats;
-    cin >> p;
-    while (p--) {
-        string pat;
-        cin >> pat;
-        pats.push_back(pat);
-    }
-    int dist;
-    cin >> dist;
-
-
-    Ukkonen ukkonen(dist);
-    ukkonen.setPatterns(pats);
-
-    ifstream myfile("../../testFiles/shakespeare.txt");
-    ukkonen.searchPatterns("name", myfile, true, true);
-}

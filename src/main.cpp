@@ -3,8 +3,8 @@
 #include <string>
 #include "cli/cli.h"
 #include "exact/ExactMatcher.h"
-#include "exact/BF.h"
-#include "exact/KMP.h"
+#include "exact/BruteForce.h"
+#include "exact/KnuthMorrisPratt.h"
 #include "exact/sellers.h"
 #include "exact/ahocorasick.h"
 #include "exact/boyermoore.h"
@@ -18,8 +18,8 @@ int main(int argc, char **argv) {
     CliOptions options = parseCommand(argc, argv);
 
     ExactMatcher *matcher = nullptr;
-    if (options.algorithm == "bf") matcher = new BF();
-    else if (options.algorithm == "kmp") matcher = new KMP();
+    if (options.algorithm == "bf") matcher = new BruteForce();
+    else if (options.algorithm == "kmp") matcher = new KnuthMorrisPratt();
     else if (options.algorithm == "bm") matcher = new BoyerMoore();
     else if (options.algorithm == "ac") matcher = new Aho();
     else if (options.algorithm == "so") matcher = new SO();

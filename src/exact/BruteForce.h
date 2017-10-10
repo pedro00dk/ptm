@@ -6,27 +6,27 @@
 
 using namespace std;
 
-class BF : public ExactMatcher {
+class BruteForce : public ExactMatcher {
 
 private:
     vector<string> patterns;
 
 public:
-    BF() = default;
+    BruteForce() = default;
 
     void setPatterns(vector<string> patterns) override {
         this->patterns = patterns;
     }
 
     void searchPatterns(const string &textName, istream &text, bool count, bool print) override {
-        int occurrences = 0;
+        auto occurrences = 0;
         for (auto &pattern  : patterns) {
             auto patternLength = (int) pattern.length();
             for (string line; getline(text, line);) {
-                bool alreadyPrint = false;
+                auto alreadyPrint = false;
                 auto lineLength = static_cast<int>(line.length());
-                for (int i = 0; i <= lineLength - patternLength; i++) {
-                    int j = 0;
+                for (auto i = 0; i <= lineLength - patternLength; i++) {
+                    auto j = 0;
                     while (j < patternLength && line[i + j] == pattern[j]) j++;
                     if (j == patternLength) {
                         occurrences += 1;
@@ -39,6 +39,6 @@ public:
                 }
             }
         }
-        if (count) printf("%s: %d\n", textName.c_str(), occurrences);
+        if (count) cout << textName << ": " << occurrences << endl;
     }
 };

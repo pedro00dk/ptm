@@ -20,25 +20,31 @@ public:
 
     void searchPatterns(const string &textName, istream &text, bool count, bool print) override {
         int occurrences = 0;
-        for (string &pattern  : patterns) {
-            int patternLength = (int) pattern.length();
-            for (string line; getline(text, line);) {
-                int lineLength = (int) line.length();
-                bool alreadyPrint = false;
-                for (int i = 0; i <= lineLength - patternLength; i++) {
-                    int j = 0;
-                    while (j < patternLength && line[i + j] == pattern[j]) j++;
-                    if (j == patternLength) {
-                        occurrences += 1;
-                        if (!alreadyPrint && print) {
-                            cout << line << endl;
-                            alreadyPrint = true;
-                        }
-                        if (!count) continue;
-                    }
-                }
+        for (string line; getline(text, line);) {
+            int lineOccurrences = 0;
+            for (string &pattern  : patterns) {
+                lineOccurrences += countLineOccurrences(line, pattern, count);
+                occurrences += lineOccurrences;
+                if (lineOccurrences > 0 && !count) break;
             }
+            if (lineOccurrences > 0 && print) cout << line << endl;
         }
         if (count) cout << textName << ": " << occurrences << endl;
+    }
+
+private:
+    int countLineOccurrences(const string &line, const string &pattern, bool count) {
+        int occurrences = 0;
+        int lineLength = (int) line.length();
+        int patternLength = (int) pattern.length();
+        for (int i = 0; i <= lineLength - patternLength; i++) {
+            int j = 0;
+            while (j < patternLength && line[i + j] == pattern[j]) j++;
+            if (j == patternLength) {
+                occurrences += 1;
+                if (!count) return occurrences;
+            }
+        }
+        return occurrences;
     }
 };

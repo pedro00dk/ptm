@@ -24,34 +24,37 @@ public:
 
     void searchPatterns(const string &textName, istream &text, bool count, bool print) override {
         int occurrences = 0;
-        for (int p = 0; p < patterns.size(); p++) {
-            string pattern = patterns[p];
-            int patternLength = (int) pattern.length();
-            for (string line; getline(text, line);) {
-                int lineLength = (int) line.length();
-                bool alreadyPrint = false;
-                int i = 0;
-                int j = 0;
-                while (i <= lineLength - patternLength) {
-                    while (j < patternLength && line[i + j] == pattern[j]) j++;
-                    if (j == patternLength) {
-                        occurrences += 1;
-                        if (!alreadyPrint && print) {
-                            cout << line << endl;
-                            alreadyPrint = true;
-                        }
-                        if (!count) break;
-                    }
-                    i += max(1, j - patternsStrictBordersLength[p][j]);
-                    j = max(0, patternsStrictBordersLength[p][j]);
-                }
+        for (string line; getline(text, line);) {
+            int lineOccurrences = 0;
+            for (int p = 0; p < patterns.size(); p++) {
+                lineOccurrences += countLineOccurrences(line, patterns[p], patternsStrictBordersLength[p], count);
+                occurrences += lineOccurrences;
+                if (lineOccurrences > 0 && !count) break;
             }
+            if (lineOccurrences > 0 && print) cout << line << endl;
         }
         if (count) cout << textName << ": " << occurrences << endl;
     }
 
 private:
-    vector<int> calculateStrictBordersLength(string pattern) {
+    int countLineOccurrences(const string &line, const string &pattern, const vector<int> &patternStrictBordersLength,
+                             bool count) {
+        int occurrences = 0;
+        int lineLength = (int) line.length();
+        int patternLength = (int) pattern.length();
+        for (int i = 0, j = 0; i <= lineLength - patternLength;) {
+            while (j < patternLength && line[i + j] == pattern[j]) j++;
+            if (j == patternLength) {
+                occurrences += 1;
+                if (!count) return occurrences;
+            }
+            i += max(1, j - patternStrictBordersLength[j]);
+            j = max(0, patternStrictBordersLength[j]);
+        }
+        return occurrences;
+    }
+
+    vector<int> calculateStrictBordersLength(const string &pattern) {
         int patternLength = (int) pattern.length();
         vector<int> strictBordersLen = vector<int>((unsigned long) patternLength + 1);
         for (int i = 0; i <= patternLength; i += 1) strictBordersLen[i] = -1;

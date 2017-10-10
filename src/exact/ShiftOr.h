@@ -89,30 +89,32 @@ public:
         vector<BitArray> patternsBits = vector<BitArray>();
         for (string &pattern : patterns) patternsBits.push_back(BitArray((int) pattern.length()));
         for (string line; getline(text, line);) {
-            int lineLength = (int) line.length();
-            bool alreadyPrint = false;
-            for (int i = 0; i < lineLength; i += 1) {
-                for (int j = 0; j < patternsBits.size(); j += 1) {
-                    BitArray patternBits = patternsBits[j];
-                    patternBits.shiftLeft();
-                    patternBits.oR(charMasks[j][(unsigned char) line[i]]);
-                    if (patternBits.isPositive()) {
-                        occurrences += 1;
-                        if (!alreadyPrint && print) {
-                            cout << line << endl;
-                            alreadyPrint = true;
-                        }
-                        if (!count) goto lineItrEnd;
-                    }
-                }
-            }
-            lineItrEnd:
+            int lineOccurrences = countLineOccurrences(line, patternsBits, count);
+            occurrences += lineOccurrences;
+            if (lineOccurrences > 0 && print) cout << line << endl;
             for (BitArray &patternBits : patternsBits) patternBits.setAll();
         }
         if (count) cout << textName << ": " << occurrences << endl;
     }
 
 private:
+    int countLineOccurrences(const string &line, const vector<BitArray> &patternsBits, bool count) {
+        int occurrences = 0;
+        int lineLength = (int) line.length();
+        for (int i = 0; i < lineLength; i += 1) {
+            for (int j = 0; j < patternsBits.size(); j += 1) {
+                BitArray patternBits = patternsBits[j];
+                patternBits.shiftLeft();
+                patternBits.oR(charMasks[j][(unsigned char) line[i]]);
+                if (patternBits.isPositive()) {
+                    occurrences += 1;
+                    if (!count) return occurrences;
+                }
+            }
+        }
+        return occurrences;
+    }
+
     vector<BitArray> generateCharMasks(const string &pattern) {
         vector<BitArray> charMasks = vector<BitArray>();
         int patternLength = (int) pattern.length();

@@ -19,20 +19,19 @@ public:
     void setPatterns(vector<string> patterns) override {
         this->patterns = patterns;
         patternsStrictBordersLength = vector<vector<int>>();
-        for (auto &pattern : patterns)
-            patternsStrictBordersLength.push_back(calculateStrictBordersLength(pattern));
+        for (string &pattern : patterns) patternsStrictBordersLength.push_back(calculateStrictBordersLength(pattern));
     }
 
     void searchPatterns(const string &textName, istream &text, bool count, bool print) override {
-        auto occurrences = 0;
-        for (auto p = 0; p < patterns.size(); p++) {
+        int occurrences = 0;
+        for (int p = 0; p < patterns.size(); p++) {
             string pattern = patterns[p];
-            auto patternLength = (int) pattern.length();
+            int patternLength = (int) pattern.length();
             for (string line; getline(text, line);) {
-                auto lineLength = (int) line.length();
-                auto alreadyPrint = false;
-                auto i = 0;
-                auto j = 0;
+                int lineLength = (int) line.length();
+                bool alreadyPrint = false;
+                int i = 0;
+                int j = 0;
                 while (i <= lineLength - patternLength) {
                     while (j < patternLength && line[i + j] == pattern[j]) j++;
                     if (j == patternLength) {
@@ -53,13 +52,11 @@ public:
 
 private:
     vector<int> calculateStrictBordersLength(string pattern) {
-        auto patternLength = (int) pattern.length();
-        auto strictBordersLen = vector<int>((unsigned long) patternLength + 1);
-        for (auto i = 0; i <= patternLength; i += 1) strictBordersLen[i] = -1;
+        int patternLength = (int) pattern.length();
+        vector<int> strictBordersLen = vector<int>((unsigned long) patternLength + 1);
+        for (int i = 0; i <= patternLength; i += 1) strictBordersLen[i] = -1;
         if (patternLength == 1 || (patternLength > 0 && pattern[0] != pattern[1])) strictBordersLen[1] = 0;
-        auto i = 1;
-        auto j = 0;
-        while (i < patternLength) {
+        for (int i = 1, j = 0; i < patternLength;) {
             while (i + j < patternLength && pattern[i + j] == pattern[j]) {
                 j += 1;
                 if (i + j == patternLength || pattern[i + j] != pattern[j]) strictBordersLen[i + j] = j;

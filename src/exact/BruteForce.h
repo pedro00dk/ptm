@@ -19,14 +19,14 @@ public:
     }
 
     void searchPatterns(const string &textName, istream &text, bool count, bool print) override {
-        auto occurrences = 0;
-        for (auto &pattern  : patterns) {
-            auto patternLength = (int) pattern.length();
+        int occurrences = 0;
+        for (string &pattern  : patterns) {
+            int patternLength = (int) pattern.length();
             for (string line; getline(text, line);) {
-                auto lineLength = (int) line.length();
-                auto alreadyPrint = false;
-                for (auto i = 0; i <= lineLength - patternLength; i++) {
-                    auto j = 0;
+                int lineLength = (int) line.length();
+                bool alreadyPrint = false;
+                for (int i = 0; i <= lineLength - patternLength; i++) {
+                    int j = 0;
                     while (j < patternLength && line[i + j] == pattern[j]) j++;
                     if (j == patternLength) {
                         occurrences += 1;

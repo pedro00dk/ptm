@@ -1,13 +1,11 @@
 #include <iostream>
-#include <cstdlib>
-#include <string>
 #include "cli/cli.h"
 #include "exact/ExactMatcher.h"
 #include "exact/BruteForce.h"
 #include "exact/KnuthMorrisPratt.h"
 #include "exact/sellers.h"
 #include "exact/ahocorasick.h"
-#include "exact/boyermoore.h"
+#include "exact/BoyerMoore.h"
 #include "exact/ukkonen.h"
 #include "exact/ShiftOr.h"
 

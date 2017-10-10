@@ -23,8 +23,8 @@ public:
         for (auto &pattern  : patterns) {
             auto patternLength = (int) pattern.length();
             for (string line; getline(text, line);) {
+                auto lineLength = (int) line.length();
                 auto alreadyPrint = false;
-                auto lineLength = static_cast<int>(line.length());
                 for (auto i = 0; i <= lineLength - patternLength; i++) {
                     auto j = 0;
                     while (j < patternLength && line[i + j] == pattern[j]) j++;

@@ -6,6 +6,9 @@
 
 using namespace std;
 
+#define ASCII_SIZE = 128
+#define ISO_SIZE 256
+
 class ExactMatcher {
 
 public:

@@ -39,9 +39,8 @@ public:
                 if (lineOccurrences > 0 && !count) break;
             }
             if (lineOccurrences > 0 && print) cout << line << endl;
-            if (print) cout << line << endl;
         }
-        if (count) printf("%s: %d\n", textName.c_str(), occurrences);
+        if (count) cout << textName << ": " << occurrences << endl;
     }
 
 private:
@@ -90,7 +89,8 @@ private:
 
         int patternLength = (int) pattern.size();
         vector<int> patternGoodSuffixes = vector<int>((unsigned long) patternLength + 1);
-        fill(patternGoodSuffixes.begin(), patternGoodSuffixes.end(), patternLength - patternBorderLengths[patternLength]);
+        fill(patternGoodSuffixes.begin(), patternGoodSuffixes.end(),
+             patternLength - patternBorderLengths[patternLength]);
 
         for (int l = 1; l < patternLength + 1; l += 1) {
             int j = patternLength - reversePatternBorderLengths[l];

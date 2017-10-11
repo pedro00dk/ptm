@@ -62,7 +62,7 @@ private:
             } else {
                 char textChar = line[textPos + patternPos];
                 textPos += max(patternPos - patternBadCharacters[textChar],
-                               patternGoodSuffixes[patternPos]);
+                               patternGoodSuffixes[patternPos + 1]);
             }
         }
 
@@ -94,11 +94,9 @@ private:
 
         for (int l = 1; l < patternLength + 1; l += 1) {
             int j = patternLength - reversePatternBorderLengths[l];
-            if (l - reversePatternBorderLengths[l] < patternGoodSuffixes[j]) {
-                patternGoodSuffixes[j] = l - reversePatternBorderLengths[j];
-            }
+            patternGoodSuffixes[j] = min(patternGoodSuffixes[j], l - reversePatternBorderLengths[j]);
         }
-        fill(patternGoodSuffixes.begin(), patternGoodSuffixes.end(), 1);
+
         return patternGoodSuffixes;
     }
 

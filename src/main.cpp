@@ -3,7 +3,7 @@
 #include "exact/ExactMatcher.h"
 #include "exact/BruteForce.h"
 #include "exact/KnuthMorrisPratt.h"
-#include "exact/sellers.h"
+#include "exact/Sellers.h"
 #include "exact/ahocorasick.h"
 #include "exact/BoyerMoore.h"
 #include "exact/ukkonen.h"

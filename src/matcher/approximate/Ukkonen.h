@@ -8,7 +8,7 @@
 #include <set>
 #include <map>
 #include <queue>
-#include "ExactMatcher.h"
+#include "../PatternMatcher.h"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ typedef pair<vector<int>, State> RowState;
 
 #define ASCII_MAX 127
 
-class Ukkonen : public ExactMatcher {
+class Ukkonen : public PatternMatcher {
 private:
     vector<string> patterns;
     int **columnDistances;

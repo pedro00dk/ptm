@@ -2,11 +2,11 @@
 
 #include <iostream>
 #include <vector>
-#include "ExactMatcher.h"
+#include "../PatternMatcher.h"
 
 using namespace std;
 
-class BruteForce : public ExactMatcher {
+class BruteForce : public PatternMatcher {
 
 private:
     vector<string> patterns;

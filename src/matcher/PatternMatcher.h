@@ -9,7 +9,7 @@ using namespace std;
 #define ASCII_SIZE = 128
 #define ISO_SIZE 256
 
-class ExactMatcher {
+class PatternMatcher {
 
 public:
     virtual void setPatterns(vector<string> patterns) = 0;

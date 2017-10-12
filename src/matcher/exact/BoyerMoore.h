@@ -5,11 +5,11 @@
 #include <vector>
 #include <stdio.h>
 #include <string.h>
-#include "ExactMatcher.h"
+#include "../PatternMatcher.h"
 
 using namespace std;
 
-class BoyerMoore : public ExactMatcher {
+class BoyerMoore : public PatternMatcher {
 
 private:
     vector<string> patterns;

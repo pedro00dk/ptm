@@ -4,7 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <cstring>
-#include "ExactMatcher.h"
+#include "../PatternMatcher.h"
 
 using namespace std;
 
@@ -65,7 +65,7 @@ public:
     }
 };
 
-class ShiftOr : public ExactMatcher {
+class ShiftOr : public PatternMatcher {
 
 private:
     vector<string> patterns;

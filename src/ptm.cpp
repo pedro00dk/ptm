@@ -1,13 +1,14 @@
 #include <iostream>
-#include "cli/cli.h"
-#include "exact/ExactMatcher.h"
-#include "exact/BruteForce.h"
-#include "exact/KnuthMorrisPratt.h"
-#include "exact/Sellers.h"
-#include "exact/ahocorasick.h"
-#include "exact/BoyerMoore.h"
-#include "exact/ukkonen.h"
-#include "exact/ShiftOr.h"
+#include "cli/Cli.h"
+#include "matcher/PatternMatcher.h"
+#include "matcher/approximate/Sellers.h"
+#include "matcher/approximate/Ukkonen.h"
+#include "matcher/exact/BruteForce.h"
+#include "matcher/exact/KnuthMorrisPratt.h"
+#include "matcher/exact/ShiftOr.h"
+#include "matcher/exact/AhoCorasick.h"
+#include "matcher/exact/BoyerMoore.h"
+
 
 using namespace std;
 
@@ -15,7 +16,7 @@ int main(int argc, char **argv) {
 
     CliOptions options = parseCommand(argc, argv);
 
-    ExactMatcher *matcher = nullptr;
+    PatternMatcher *matcher = nullptr;
     if (options.algorithm == "bf") matcher = new BruteForce();
     else if (options.algorithm == "kmp") matcher = new KnuthMorrisPratt();
     else if (options.algorithm == "bm") matcher = new BoyerMoore();

@@ -3,11 +3,11 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
-#include "ExactMatcher.h"
+#include "../PatternMatcher.h"
 
 using namespace std;
 
-class KnuthMorrisPratt : public ExactMatcher {
+class KnuthMorrisPratt : public PatternMatcher {
 
 private:
     vector<string> patterns;

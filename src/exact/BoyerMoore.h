@@ -92,9 +92,9 @@ private:
         fill(patternGoodSuffixes.begin(), patternGoodSuffixes.end(),
              patternLength - patternBorderLengths[patternLength]);
 
-        for (int l = 1; l < patternLength + 1; l += 1) {
-            int j = patternLength - reversePatternBorderLengths[l];
-            patternGoodSuffixes[j] = min(patternGoodSuffixes[j], l - reversePatternBorderLengths[j]);
+        for (int i = 1; i < patternLength + 1; i += 1) {
+            int j = patternLength - reversePatternBorderLengths[i];
+            patternGoodSuffixes[j] = min(patternGoodSuffixes[j], i - reversePatternBorderLengths[i]);
         }
 
         return patternGoodSuffixes;

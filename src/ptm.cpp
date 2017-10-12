@@ -3,12 +3,12 @@
 #include "matcher/PatternMatcher.h"
 #include "matcher/approximate/Sellers.h"
 #include "matcher/approximate/Ukkonen.h"
-#include "matcher/exact/BruteForce.h"
-#include "matcher/exact/KnuthMorrisPratt.h"
-#include "matcher/exact/ShiftOr.h"
 #include "matcher/exact/AhoCorasick.h"
 #include "matcher/exact/BoyerMoore.h"
-
+#include "matcher/exact/BruteForce.h"
+#include "matcher/exact/KnuthMorrisPratt.h"
+#include "matcher/exact/RabinKarp.h"
+#include "matcher/exact/ShiftOr.h"
 
 using namespace std;
 
@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
     else if (options.algorithm == "bm") matcher = new BoyerMoore();
     else if (options.algorithm == "ac") matcher = new Aho();
     else if (options.algorithm == "so") matcher = new ShiftOr();
+    else if (options.algorithm == "rk") matcher = new RabinKarp();
     else if (options.algorithm == "se") matcher = new Sellers(options.editDistance);
     else if (options.algorithm == "uk") matcher = new Ukkonen(options.editDistance);
     else {

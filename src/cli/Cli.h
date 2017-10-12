@@ -30,7 +30,7 @@ static const vector<option> longCliOptions = {
         {nullptr, 0,                     nullptr, 0}};
 
 // Options arguments
-static const vector<string> exactAlgorithmArguments = {"bf", "kmp", "bm", "ac", "so"};
+static const vector<string> exactAlgorithmArguments = {"bf", "kmp", "bm", "ac", "so", "rk"};
 static const vector<string> approxAlgorithmArguments = {"se", "uk", "wu"};
 
 // Help message
@@ -104,7 +104,7 @@ CliOptions parseCommand(int argc, char **argv) {
                 }
                 break;
             case 'e':
-                options.editDistance = stoi(optarg);
+                options.editDistance = atoi(optarg);
                 if (options.editDistance < 0) {
                     cerr << "ERR: edit distance should be positive" << endl;
                     exit(1);

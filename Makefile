@@ -1,10 +1,12 @@
 CPP_FILES := $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix bin/,$(notdir $(CPP_FILES:.cpp=.o)))
-LD_FLAGS := -o3
-CC_FLAGS := -o3
+CC_FLAGS := -std=c++11 -o3
+RM := rm -f
 
-ptm.exe: $(OBJ_FILES)
-	g++ $(LD_FLAGS) -o $@ $^
+bin:
+	g++ $(CC_FLAGS) src/ptm.cpp -o bin/ptm.o
 
-bin/%.o: src/%.cpp
-	g++ $(CC_FLAGS) -c -o $@ $<
+clean: ; $(RM) $(OBJ_FILES)
+
+.PHONY: bin clean
+

@@ -1,98 +1,93 @@
-import re
+import random
 import subprocess
 import timeit
 
 import matplotlib.pyplot as plt
-from matplotlib import pyplot
 
 
-def compile():
-    command = "g++ ../src/ptm.cpp -std=c++11 -O2 -o pmt"
-    subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+def get_text_patterns(text_file, pattern_sizes):
+    current_pattern_size_index = 0
+    patterns = []
+    with open(text_file, 'r', encoding='latin1') as text:
+        for line in text:
+            pattern_size = pattern_sizes[current_pattern_size_index]
+            size_difference = len(line) - pattern_size
+            if size_difference > 0:
+                start_index = random.randrange(size_difference)
+                pattern = line[start_index: start_index + pattern_size]
+                if '\n' in pattern or '%' in pattern or '`' in pattern or '"' in pattern or "'" in pattern or '[' in pattern or ']' in pattern:
+                    continue
+                patterns.append(pattern)
+                current_pattern_size_index += 1
+            if current_pattern_size_index >= len(pattern_sizes):
+                break
+    return patterns
 
 
-def run(pattern, text_file, algorithm, has_pattern_file=False):
+def run(algorithm, pattern, text_file):
     if algorithm == "grep":
-        command = 'grep {0} {1} -o | wc -l'.format(pattern,
-                                           text_file)
+        command = 'grep "%s" "%s" -o | wc -l' % (pattern, text_file)
     else:
-        command = './pmt {0} {1} {2} -a {3} -c'.format("-p" if has_pattern_file else "",
-                                                       pattern,
-                                                       text_file,
-                                                       algorithm)
-
-    proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    proc.wait()
-
-    return proc.stdout.read()
+        command = './ptm -a %s -c "%s" "%s"' % (algorithm, pattern, text_file)
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    process.wait()
+    return process.stdout.read()
 
 
-def get_execution_time(pattern, text_file, algorithm, number_executions):
-    timer = timeit.Timer(lambda: run(pattern, text_file, algorithm))
-    time = timer.timeit(number=number_executions) / number_executions
+def get_run_time(algorithm, pattern, text_file, runs):
+    timer = timeit.Timer(lambda: run(algorithm, pattern, text_file))
+    time = timer.timeit(number=runs) / runs
     return time
 
 
-def get_occurrences_count(pattern, text_file, algorithm):
-    output_str = run(pattern, text_file, algorithm).decode('ascii')
-    occurrences_count = re.search(r'\d+', output_str).group()
-
-    return occurrences_count
-
-
 def main():
-    compile()
+    gen_text_source = 'gentext.c'
+    gen_text = 'gentext.o'
+    text_file = 'text.txt'
+    text_size = 100
+    text_sigma = 255
+    compile_command = 'gcc -O2 %s -o %s' % (gen_text_source, gen_text)
+    subprocess.call(compile_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    run_command = './%s %s %d %d' % (gen_text, text_file, text_size, text_sigma)
+    subprocess.call(run_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    print('text file -> name: %s, size: %d mb, ab size: %d' % (text_file, text_size, text_sigma))
 
-    exact_algorithms = ['bf', 'kmp', 'bm', 'ac', 'so', 'grep']
-    patterns = sorted(['aba', 'abacaba', 'beauty', 'mediumsizepatterntotest', 'gentleman', 'gentlewoman'], key=len)
-    text_files = ['shakespeare.txt']
+    patterns = get_text_patterns(text_file, [*range(5, 101, 5)])
+    print('patterns -> count: %d:' % len(patterns))
+    for pattern in patterns:
+        print('(%d): %s' % (len(pattern), pattern))
 
-    number_executions = 10
-    max_pattern_len = 30
+    print('compiling program')
+    ptm_source = '../src/ptm.cpp'
+    ptm = 'ptm'
+    compile_command = '%s %s %s -o %s' % ('g++', '-std=c++11 -O2', ptm_source, ptm)
+    subprocess.call(compile_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-    # assert correctness
-    for text_file in text_files:
-        for pattern in patterns:
-            occurrences_counts = {}
-            for algorithm in exact_algorithms:
-                occurrences_count = get_occurrences_count(pattern, text_file, algorithm)
-                if occurrences_count not in occurrences_counts:
-                    occurrences_counts[occurrences_count] = [algorithm]
-                else:
-                    occurrences_counts[occurrences_count].append([algorithm])
+    exact_algorithms = ['grep', 'bf', 'kmp', 'bm', 'ac', 'so']
+    print('algorithms:')
+    print(exact_algorithms)
 
-            if len(occurrences_counts) != 1:
-                print(occurrences_counts)
+    run('grep', patterns[0], text_file)  # Just to load file
 
-            assert len(occurrences_counts) == 1
+    runs = 5
+    run_times = {}
 
-    # calculate execution times
-    execution_times = {}
-
+    print('testing algorithms in %d runs' % runs)
     for algorithm in exact_algorithms:
-        execution_times[algorithm] = [0] * (max_pattern_len + 1)
-
-    for text_file in text_files:
+        run_times[algorithm] = []
         for pattern in patterns:
-            pattern_len = len(pattern)
-            for algorithm in exact_algorithms:
-                time = get_execution_time(pattern, text_file, algorithm, number_executions)
-                print(algorithm, pattern_len, time)
-                execution_times[algorithm][pattern_len] += time
+            time = get_run_time(algorithm, pattern, text_file, runs)
+            print('algorithm %s, pattern length %d, mean run time %f' % (algorithm, len(pattern), time))
+            run_times[algorithm].append(time)
+        print()
 
-    # plot results
-    for (algorithm, algorithm_execution_times) in execution_times.items():
-        x = []
-        y = []
-        for (pattern_len, execution_time) in enumerate(algorithm_execution_times):
-            if execution_time > 0:
-                x.append(pattern_len)
-                y.append(execution_time)
-
-        pyplot.plot(x, y, label=algorithm)
-
+    x = [len(pattern) for pattern in patterns]
+    for algorithm, results in run_times.items():
+        plt.plot(x, results, label=algorithm)
+    plt.xlabel('pattern size')
+    plt.ylabel('time (sec)')
     plt.legend()
-    pyplot.show()
+    plt.show()
 
 
 if __name__ == "__main__":

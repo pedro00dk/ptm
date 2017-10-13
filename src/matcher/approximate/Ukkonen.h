@@ -17,8 +17,6 @@ typedef pair<int, char> Transition;
 typedef vector<int> Row;
 typedef pair<vector<int>, State> RowState;
 
-#define ASCII_MAX 127
-
 class Ukkonen : public PatternMatcher {
 private:
     vector<string> patterns;
@@ -73,25 +71,20 @@ private:
             mini = pastRow[i - 1] + int(pattern[i - 1] != c);
             mini = min(mini, row[i - 1] + 1);
             mini = min(mini, pastRow[i] + 1);
-            //if (mini > maxEditDist) mini = maxEditDist + 1;
-            //mini = min(mini, maxEditDist + 1);
+            mini = min(mini, maxEditDist + 1);
             row[i] = mini;
         }
-
 
         return row;
     }
 
     void buildStates(int patternNumber) {
         string pattern = patterns[patternNumber];
-        cout << pattern << endl;
-
         patternLen = pattern.size();
 
         vector<int> row;
         row.resize(patternLen + 1);
         for (int i = 0; i <= patternLen; i++) row[i] = i;
-
 
         State state = 0;
         RowState rowState = RowState(row, state);
@@ -104,16 +97,16 @@ private:
         rowStatesMap[row] = state;
         Transition transition;
 
-//        if (patternLen <= maxEditDist) {
-//            finalStates.insert(initialState);
-//        }
+        if (patternLen <= maxEditDist) {
+            finalStates.insert(initialState);
+        }
 
         while (rowStatesQueue.size()) {
             rowState = rowStatesQueue.front();
             rowStatesQueue.pop();
             row = rowState.first;
 
-            for (char c = 0; c < ASCII_MAX; c++) {
+            for (char c = 0; c < ISO_SIZE; c++) {
                 row = rowState.first;
                 row = nextRow(row, pattern, c);
 

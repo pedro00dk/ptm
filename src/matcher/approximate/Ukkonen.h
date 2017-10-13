@@ -56,8 +56,6 @@ public:
             if (print && lineOccurrences) cout << line << "\n";
         }
         if (count) printf("%s: %d\n", textName.c_str(), occurrences);
-
-        delete transitions;
     }
 
 private:
@@ -98,7 +96,7 @@ private:
         Transition transition;
 
         if (patternLen <= maxEditDist) {
-            finalStates.insert(initialState);
+            finalStates.insert(0);
         }
 
         while (rowStatesQueue.size()) {
@@ -106,7 +104,7 @@ private:
             rowStatesQueue.pop();
             row = rowState.first;
 
-            for (char c = 0; c < ISO_SIZE; c++) {
+            for (unsigned char c = 0; c < ISO_SIZE; c++) {
                 row = rowState.first;
                 row = nextRow(row, pattern, c);
 

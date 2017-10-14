@@ -130,27 +130,6 @@ CliOptions parseCommand(int argc, char **argv) {
         }
     }
 
-    // Default options
-    if (options.algorithm.empty()) {
-        if (options.editDistance != -1) {
-            if (options.patterns[0].length() <= 5) {
-                options.algorithm = "se";
-            } else {
-                options.algorithm = "uk";
-            }
-            options.isApprox = true;
-        } else if (options.patterns.size() >= 5) {
-            options.algorithm = "ac";
-            options.isExact = true;
-        } else if (options.patterns[0].size() <= 10) {
-            options.algorithm = "bf";
-            options.isExact = true;
-        } else {
-            options.algorithm = "bm";
-            options.isExact = true;
-        }
-    }
-
     // Check options conflicts
     if ((options.isExact && options.editDistance != -1) || (options.isApprox && options.editDistance == -1)) {
         cerr << "ERR: conflicting options, -a,--algorithm and -e,--edit, check --help" << endl;
@@ -169,6 +148,31 @@ CliOptions parseCommand(int argc, char **argv) {
         else options.files.emplace_back(arguments[i]);
 
     options.files.resize(unique(options.files.begin(), options.files.end()) - options.files.begin());
+
+    // Default options
+    if (options.algorithm.empty()) {
+        double avgPatternSize = 0;
+        for (string &pattern: options.patterns) avgPatternSize += pattern.size();
+        avgPatternSize /= options.patterns.size();
+
+        if (options.editDistance != -1) {
+            if (options.patterns[0].length() <= 5) {
+                options.algorithm = "se";
+            } else {
+                options.algorithm = "uk";
+            }
+            options.isApprox = true;
+        } else if (options.patterns.size() >= 5) {
+            options.algorithm = "ac";
+            options.isExact = true;
+        } else if (avgPatternSize <= 10) {
+            options.algorithm = "bf";
+            options.isExact = true;
+        } else {
+            options.algorithm = "bm";
+            options.isExact = true;
+        }
+    }
 
     return options;
 }

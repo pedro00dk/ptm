@@ -87,7 +87,7 @@ private:
         unsigned long long hash = 0;
 
         for (int i = 0; i < patternLength; i++) {
-            hash *= hash * HASH_BASE + pattern[i];
+            hash = hash * HASH_BASE + pattern[i];
         }
 
         return hash;

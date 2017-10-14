@@ -77,7 +77,7 @@ private:
         queue<int> q;
         int triePos, nextTriePos, border;
 
-        for (unsigned char ascii = 0; ascii < ISO_SIZE; ascii++) {
+        for (int ascii = 0; ascii < ISO_SIZE; ascii++) {
             if (goTrie[0][ascii]) {
                 q.push(goTrie[0][ascii]);
                 trieFail[goTrie[0][ascii]] = 0;
@@ -88,7 +88,7 @@ private:
             triePos = q.front();
             q.pop();
 
-            for (unsigned char ascii = 0; ascii < ISO_SIZE; ascii++) {
+            for (int ascii = 0; ascii < ISO_SIZE; ascii++) {
                 nextTriePos = goTrie[triePos][ascii];
                 if (nextTriePos) {
                     q.push(nextTriePos);

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-#define ISO_SIZE 255
+#define ISO_SIZE 256
 
 class PatternMatcher {
 

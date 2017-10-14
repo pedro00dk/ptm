@@ -13,7 +13,7 @@
 using namespace std;
 
 typedef int State;
-typedef pair<int, char> Transition;
+typedef pair<int, unsigned char> Transition;
 typedef vector<int> Row;
 typedef pair<vector<int>, State> RowState;
 
@@ -59,7 +59,7 @@ public:
     }
 
 private:
-    vector<int> nextRow(const vector<int> &pastRow, const string &pattern, char c) {
+    vector<int> nextRow(const vector<int> &pastRow, const string &pattern, unsigned char c) {
         vector<int> row;
         row.resize(pastRow.size());
         row[0] = 0;
@@ -95,16 +95,12 @@ private:
         rowStatesMap[row] = state;
         Transition transition;
 
-        if (patternLen <= maxEditDist) {
-            finalStates.insert(0);
-        }
-
         while (rowStatesQueue.size()) {
             rowState = rowStatesQueue.front();
             rowStatesQueue.pop();
             row = rowState.first;
 
-            for (unsigned char c = 0; c < ISO_SIZE-1; c++) {
+            for (int c = 0; c < ISO_SIZE; c++) {
                 row = rowState.first;
                 row = nextRow(row, pattern, c);
 
@@ -137,7 +133,7 @@ private:
         textLen = text.size();
 
         State currentState = 0;
-        char textChar;
+        unsigned char textChar;
         Transition transition;
 
         for (int textPos = 0; textPos < textLen; textPos++) {

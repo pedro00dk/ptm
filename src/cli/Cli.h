@@ -145,8 +145,10 @@ CliOptions parseCommand(int argc, char **argv) {
     }
 
     // Check options conflicts
-    if ((options.isExact && options.editDistance != -1) || (options.isApprox && options.editDistance == -1))
+    if ((options.isExact && options.editDistance != -1) || (options.isApprox && options.editDistance == -1)) {
         cerr << "ERR: conflicting options, -a,--algorithm and -e,--edit, check --help" << endl;
+        exit(1);
+    }
 
     // Get global arguments
     char **arguments = argv + optind;

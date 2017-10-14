@@ -8,8 +8,6 @@
 
 using namespace std;
 
-#define ASCII 127
-
 class Aho : public PatternMatcher {
 private:
     vector<string> patterns;
@@ -45,7 +43,7 @@ private:
         string pattern;
 
         nextTriePos = 0;
-        goTrie.push_back(vector<int>(ASCII));
+        goTrie.push_back(vector<int>(ISO_SIZE));
         trieOccurrences.push_back(vector<int>());
 
         for (int i = 0; i < patterns.size(); i++) {
@@ -63,7 +61,7 @@ private:
 
             while (patternPos < patternLen) {
                 triePos = goTrie[triePos][currentChar] = ++nextTriePos;
-                goTrie.push_back(vector<int>(ASCII));
+                goTrie.push_back(vector<int>(ISO_SIZE));
                 trieOccurrences.push_back(vector<int>());
                 patternPos++;
                 currentChar = pattern[patternPos];
@@ -79,7 +77,7 @@ private:
         queue<int> q;
         int triePos, nextTriePos, border;
 
-        for (char ascii = 0; ascii < ASCII; ascii++) {
+        for (unsigned char ascii = 0; ascii < ISO_SIZE; ascii++) {
             if (goTrie[0][ascii]) {
                 q.push(goTrie[0][ascii]);
                 trieFail[goTrie[0][ascii]] = 0;
@@ -90,7 +88,7 @@ private:
             triePos = q.front();
             q.pop();
 
-            for (char ascii = 0; ascii < ASCII; ascii++) {
+            for (unsigned char ascii = 0; ascii < ISO_SIZE; ascii++) {
                 nextTriePos = goTrie[triePos][ascii];
                 if (nextTriePos) {
                     q.push(nextTriePos);
@@ -112,7 +110,7 @@ private:
     int ahoCorasick(const string &text) {
         int occurrences = 0;
         int triePos = 0;
-        char textChar;
+        unsigned char textChar;
         textLen = text.size();
         for (int textPos = 0; textPos < textLen; textPos++) {
             textChar = text[textPos];

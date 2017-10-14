@@ -157,7 +157,7 @@ def run_and_plot_exact_pattern_file(text_file, patterns, exact_algorithms, runs)
     plt.ylabel('time (sec)')
     plt.legend()
     plt.grid()
-    plt.plot(x, y, 'g')
+    plt.plot(x, y, 'g', marker='x')
     # plt.show()
     # TODO: plotar barchart
     plt.savefig("results_exact_pattern_file.png")
@@ -180,10 +180,11 @@ def run_and_plot_aprox(text_file, patterns, approx_algorithms, runs, max_edit_di
 
     x = [len(pattern) for pattern in patterns]
     for algorithm, results in sorted(run_times.items()):
-        plt.plot(x, results, label=algorithm)
+        plt.plot(x, results, label=algorithm, marker='x')
     plt.xlabel('pattern size')
     plt.ylabel('time (sec)')
     plt.legend()
+    plt.grid()
     # plt.show()
     plt.savefig('results_aprox' + str(max_edit_distance) + '.png')
     plt.clf()
@@ -214,8 +215,8 @@ def main():
     print('algorithms:')
     print(approx_algorithms)
 
-    patterns = patterns[:7]
-    runs = 1
+    patterns = patterns[:8]
+    runs = 5
     max_edit_distance = 2
     for edit_distance in range(max_edit_distance + 1):
         run_and_plot_aprox(text_file, patterns, approx_algorithms, runs, edit_distance)

@@ -104,7 +104,7 @@ private:
             rowStatesQueue.pop();
             row = rowState.first;
 
-            for (unsigned char c = 0; c < ISO_SIZE; c++) {
+            for (unsigned char c = 0; c < ISO_SIZE-1; c++) {
                 row = rowState.first;
                 row = nextRow(row, pattern, c);
 

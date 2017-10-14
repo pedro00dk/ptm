@@ -35,10 +35,10 @@ public:
                 lineOccurrences += countLineOccurrences(
                         line, patterns[p], patternsBadCharacters[p], patternsGoodSuffixes[p], count
                 );
-                occurrences += lineOccurrences;
                 if (lineOccurrences > 0 && !count) break;
             }
             if (lineOccurrences > 0 && print) cout << line << endl;
+            occurrences += lineOccurrences;
         }
         if (count) cout << textName << ": " << occurrences << endl;
     }

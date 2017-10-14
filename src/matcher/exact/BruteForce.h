@@ -24,10 +24,10 @@ public:
             int lineOccurrences = 0;
             for (string &pattern  : patterns) {
                 lineOccurrences += countLineOccurrences(line, pattern, count);
-                occurrences += lineOccurrences;
                 if (lineOccurrences > 0 && !count) break;
             }
             if (lineOccurrences > 0 && print) cout << line << endl;
+            occurrences += lineOccurrences;
         }
         if (count) cout << textName << ": " << occurrences << endl;
     }

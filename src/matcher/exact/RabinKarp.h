@@ -35,10 +35,10 @@ public:
             for (int i = 0; i < patterns.size(); i++) {
                 lineOccurrences += countLineOccurrences(line, patterns[i], patternHashes[i], patternHashesPotencies[i],
                                                         count);
-                occurrences += lineOccurrences;
                 if (lineOccurrences > 0 && !count) break;
             }
             if (lineOccurrences > 0 && print) cout << line << endl;
+            occurrences += lineOccurrences;
         }
         if (count) cout << textName << ": " << occurrences << endl;
     }

@@ -28,10 +28,10 @@ public:
             int lineOccurrences = 0;
             for (int p = 0; p < patterns.size(); p++) {
                 lineOccurrences += countLineOccurrences(line, patterns[p], patternsStrictBordersLength[p], count);
-                occurrences += lineOccurrences;
                 if (lineOccurrences > 0 && !count) break;
             }
             if (lineOccurrences > 0 && print) cout << line << endl;
+            occurrences += lineOccurrences;
         }
         if (count) cout << textName << ": " << occurrences << endl;
     }

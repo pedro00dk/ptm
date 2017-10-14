@@ -156,7 +156,7 @@ CliOptions parseCommand(int argc, char **argv) {
         avgPatternSize /= options.patterns.size();
 
         if (options.editDistance != -1) {
-            if (options.patterns[0].length() <= 5) {
+            if (options.patterns[0].length() <= 5 || options.editDistance > 3) {
                 options.algorithm = "se";
             } else {
                 options.algorithm = "uk";

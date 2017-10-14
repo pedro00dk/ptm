@@ -133,10 +133,17 @@ CliOptions parseCommand(int argc, char **argv) {
     // Default options
     if (options.algorithm.empty()) {
         if (options.editDistance != -1) {
-            options.algorithm = "uk";
+            if (options.patterns[0].length() <= 5) {
+                options.algorithm = "se";
+            } else {
+                options.algorithm = "uk";
+            }
             options.isApprox = true;
-        } else if (options.patterns.size() > 1) {
+        } else if (options.patterns.size() >= 5) {
             options.algorithm = "ac";
+            options.isExact = true;
+        } else if (options.patterns[0].size() <= 10) {
+            options.algorithm = "bf";
             options.isExact = true;
         } else {
             options.algorithm = "bm";

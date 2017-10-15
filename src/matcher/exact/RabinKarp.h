@@ -40,7 +40,7 @@ public:
             if (lineOccurrences > 0 && print) cout << line << endl;
             occurrences += lineOccurrences;
         }
-        if (count) cout << textName << ": " << occurrences << endl;
+        if (count) cout << occurrences << endl;
     }
 
 private:

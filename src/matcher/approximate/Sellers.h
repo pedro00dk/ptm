@@ -38,7 +38,7 @@ public:
             for (vector<int> patternColumnDistances : patternsColumnDistances)
                 for (int row = 0; row < patternColumnDistances.size(); row += 1) patternColumnDistances[row] = row;
         }
-        if (count) cout << textName << ": " << occurrences << endl;
+        if (count) cout << occurrences << endl;
     }
 
 private:

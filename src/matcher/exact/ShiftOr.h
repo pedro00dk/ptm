@@ -94,7 +94,7 @@ public:
             if (lineOccurrences > 0 && print) cout << line << endl;
             for (BitArray &patternBits : patternsBits) patternBits.setAll();
         }
-        if (count) cout << textName << ": " << occurrences << endl;
+        if (count) cout << occurrences << endl;
     }
 
 private:

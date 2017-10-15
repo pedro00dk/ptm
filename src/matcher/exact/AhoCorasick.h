@@ -33,7 +33,7 @@ public:
             occurrences += lineOccurences;
             if (print && lineOccurences) cout << line << "\n";
         }
-        if (count) printf("%s: %d\n", textName.c_str(), occurrences);
+        if (count) printf("%d\n", occurrences);
     }
 
 private:

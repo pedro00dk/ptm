@@ -60,7 +60,7 @@ private:
                 textPos += patternGoodSuffixes[0];
                 occurrences++;
             } else {
-                char textChar = line[textPos + patternPos];
+                unsigned char textChar = line[textPos + patternPos];
                 textPos += max(patternPos - patternBadCharacters[textChar],
                                patternGoodSuffixes[patternPos + 1]);
             }
@@ -74,7 +74,7 @@ private:
         int patternLength = (int) pattern.size();
         vector<int> patternBadCharacters = vector<int>(ISO_SIZE);
         for (int patternCharacterIndex = 0; patternCharacterIndex < patternLength; patternCharacterIndex += 1) {
-            char patternCharacter = pattern[patternCharacterIndex];
+            unsigned char patternCharacter = pattern[patternCharacterIndex];
             patternBadCharacters[patternCharacter] = patternCharacterIndex;
         }
         return patternBadCharacters;

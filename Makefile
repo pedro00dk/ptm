@@ -1,6 +1,6 @@
 CPP_FILES := $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix bin/,$(notdir $(CPP_FILES:.cpp=.o)))
-CC_FLAGS := -std=c++11 -o3
+CC_FLAGS := -std=c++11 -O3
 RM := rm -f
 
 bin:
